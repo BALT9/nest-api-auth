@@ -32,6 +32,29 @@ export class AuthService {
     }
 
     async login(email: string, password: string) {
-        // implementación después
+        const user = await this.usersService.findByEmail(email);
+
+        if (!user) {
+            throw new BadRequestException('Credenciales inválidas');
+        }
+
+        const passwordMatches = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatches) {
+            throw new BadRequestException('Credenciales inválidas');
+        }
+
+        const plainUser = user.toObject(); // <--- convierte el documento de Mongoose a un objeto plano
+        const payload = { email: plainUser.email, sub: plainUser._id };
+        const access_token = this.jwtService.sign(payload);
+
+        const { password: _, ...userWithoutPassword } = plainUser;
+
+        return {
+            user: userWithoutPassword,
+            access_token,
+        };
     }
+
+
 }

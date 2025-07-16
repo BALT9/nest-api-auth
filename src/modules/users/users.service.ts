@@ -1,42 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './schemas/user.schema';
+import { User, UserDocument } from './schemas/user.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-
-  // importamos el modelo 
   constructor(
-    @InjectModel(User.name) private userModel: Model<User>
+    @InjectModel(User.name) private userModel: Model<UserDocument>
   ) { }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<UserDocument> {
     const createUser = new this.userModel(createUserDto);
     return createUser.save();
   }
 
-  async findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<UserDocument[]> {
+    return this.userModel.find().exec();
   }
 
-  async findOne(id: string) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<UserDocument> {
+    const user = await this.userModel.findById(id).exec();
+    if (!user) throw new NotFoundException(`User with id ${id} not found`);
+    return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<UserDocument> {
+    const updatedUser = await this.userModel
+      .findByIdAndUpdate(id, updateUserDto, { new: true })
+      .exec();
+    if (!updatedUser) throw new NotFoundException(`User with id ${id} not found`);
+    return updatedUser;
   }
 
-  async remove(id: string) {
-    return `This action removes a #${id} user`;
+  async remove(id: string): Promise<UserDocument> {
+    const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
+    if (!deletedUser) throw new NotFoundException(`User with id ${id} not found`);
+    return deletedUser;
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<UserDocument | null> {
     return this.userModel.findOne({ email }).exec();
   }
-
 }
