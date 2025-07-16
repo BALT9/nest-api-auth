@@ -1,8 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { UsersService } from '../users/users.service';  // IMPORTANTE
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    async login(email, password){
-        
+    constructor(
+        private usersService: UsersService,  // INYECTADO
+        private jwtService: JwtService,
+    ) { }
+
+    async register(createUserDto: CreateUserDto) {
+        const existingUser = await this.usersService.findByEmail(createUserDto.email);
+        if (existingUser) {
+            throw new BadRequestException('El email ya está registrado');
+        }
+
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+
+        const user = await this.usersService.create({
+            ...createUserDto,
+            password: hashedPassword,
+        });
+
+        const payload = { email: user.email, sub: user._id };
+        const access_token = this.jwtService.sign(payload);
+
+        return { user, access_token };
+    }
+
+    async login(email: string, password: string) {
+        // implementación después
     }
 }

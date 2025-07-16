@@ -12,25 +12,31 @@ export class UsersService {
   // importamos el modelo 
   constructor(
     @InjectModel(User.name) private userModel: Model<User>
-  ){}
+  ) { }
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    const createUser = new this.userModel(createUserDto);
+    return createUser.save();
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all users`;
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     return `This action returns a #${id} user`;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     return `This action removes a #${id} user`;
   }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userModel.findOne({ email }).exec();
+  }
+
 }
