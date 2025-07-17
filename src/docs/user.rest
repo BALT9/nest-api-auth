@@ -2,24 +2,26 @@ GET http://localhost:3000/api
 
 ###
 GET http://localhost:3000/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvbWVsQGV4YW1wbGUuY29tIiwic3ViIjoiNjg3ODNjNTc2MWQ2NzU4NWQwYjllNDNjIiwiaWF0IjoxNzUyNzEwMjMxLCJleHAiOjE3NTI3OTY2MzF9.Ch55LzA5FjMVWUV-x7l-MlSoT9mvzJKg1_3VwQXFz7s
 
 ###
 GET http://localhost:3000/api/users/687817f42efbecbd9c17926c
 
-###
+### 
 POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "name": "Juan Pérez",
+  "name": "romel",
   "age": 25,
-  "email": "juan@example.com",
+  "email": "romel@example.com",
   "password": "1234567890"
 }
 
 ###
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW5AZXhhbXBsZS5jb20iLCJzdWIiOiI2ODc4MTdmNDJlZmJlY2JkOWMxNzkyNmMiLCJpYXQiOjE3NTI3MTAwNTksImV4cCI6MTc1Mjc5NjQ1OX0.VXCN-XFziddiEq1ofPpNpEbWIjsC_qd4su07CLg00Ng
 
 {
   "email": "juan@example.com",
