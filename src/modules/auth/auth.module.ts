@@ -4,7 +4,8 @@ import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';        // Importa PassportModule
-import { JwtStrategy } from './jwt.strategy';           // Importa la estrategia JWT
+import { JwtStrategy } from './guards/jwt/jwt.strategy';           // Importa la estrategia JWT
+import { TokenBlacklistService } from './guards/jwt/token-blacklist.service';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { JwtStrategy } from './jwt.strategy';           // Importa la estrategia
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],  // <-- agrega JwtStrategy aquí
+  providers: [AuthService, JwtStrategy, TokenBlacklistService],  // <-- agrega JwtStrategy aquí
 })
 export class AuthModule {}
