@@ -27,3 +27,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW5AZ
   "email": "juan@example.com",
   "password": "1234567890"
 }
+
+###
+GET http://localhost:3000/api/auth/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW5AZXhhbXBsZS5jb20iLCJzdWIiOiI2ODc4MTdmNDJlZmJlY2JkOWMxNzkyNmMiLCJpYXQiOjE3NTI3MTAwNTksImV4cCI6MTc1Mjc5NjQ1OX0.VXCN-XFziddiEq1ofPpNpEbWIjsC_qd4su07CLg00Ng
