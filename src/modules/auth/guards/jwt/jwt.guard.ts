@@ -1,15 +1,19 @@
-// src/modules/auth/guards/jwt.guard.ts
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ModuleRef } from '@nestjs/core';
 import { TokenBlacklistService } from './token-blacklist.service';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-    constructor(private readonly tokenBlacklistService: TokenBlacklistService) {
-        super();
-    }
+  private tokenBlacklistService: TokenBlacklistService;
 
-    handleRequest(err, user, info, context) {
+  constructor(private moduleRef: ModuleRef) {
+    super();
+    // Obtener el servicio de forma síncrona
+    this.tokenBlacklistService = this.moduleRef.get(TokenBlacklistService, { strict: false });
+  }
+
+  canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
 
@@ -23,10 +27,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       throw new UnauthorizedException('Token inválido o revocado');
     }
 
+    return super.canActivate(context);
+  }
+
+  handleRequest(err, user, info) {
     if (err || !user) {
       throw err || new UnauthorizedException('Token inválido');
     }
-
     return user;
   }
 }
