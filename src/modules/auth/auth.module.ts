@@ -6,7 +6,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';        // Importa PassportModule
 import { JwtStrategy } from './guards/jwt/jwt.strategy';           // Importa la estrategia JWT
 import { TokenBlacklistService } from './guards/jwt/token-blacklist.service';
-import { JwtAuthGuard } from './guards/jwt/jwt.guard';
 
 @Module({
   imports: [
