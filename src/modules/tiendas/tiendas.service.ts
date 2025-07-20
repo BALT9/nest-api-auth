@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
@@ -47,9 +47,24 @@ export class TiendasService {
     }
   }
 
-  async findAll(): Promise<Tienda[]> {
-    return this.tiendaModel.find().populate('owner').populate('products').exec();
+  async findByOwnerId(ownerId: string): Promise<Tienda> {
+    if (!Types.ObjectId.isValid(ownerId)) {
+      throw new BadRequestException('ownerId no es un ObjectId válido');
+    }
+
+    const tienda = await this.tiendaModel.findOne({ owner: new Types.ObjectId(ownerId) })
+      .populate('owner')
+      .populate('products')
+      .exec();
+
+    if (!tienda) {
+      throw new NotFoundException('No se encontró una tienda para este usuario');
+    }
+
+    return tienda;
   }
+
+
 
   async findOne(id: string): Promise<Tienda> {
     const tienda = await this.tiendaModel.findById(id).populate('owner').populate('products').exec();

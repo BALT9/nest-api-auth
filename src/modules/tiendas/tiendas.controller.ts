@@ -17,7 +17,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt/jwt.guard';
 @Controller('tiendas')
 @UseGuards(JwtAuthGuard)
 export class TiendasController {
-  constructor(private readonly tiendasService: TiendasService) {}
+  constructor(private readonly tiendasService: TiendasService) { }
 
   @Post()
   create(@Body() createTiendaDto: CreateTiendaDto, @Req() req: any) {
@@ -26,9 +26,12 @@ export class TiendasController {
   }
 
   @Get()
-  findAll() {
-    return this.tiendasService.findAll();
+  async findMyTienda(@Req() req: any) {
+    const userId = req.user._id;
+    console.log(userId);
+    return this.tiendasService.findByOwnerId(userId);
   }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {

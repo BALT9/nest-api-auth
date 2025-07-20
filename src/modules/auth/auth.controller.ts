@@ -27,7 +27,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   async getProfile(@Request() req) {
-    const user = await this.usersService.findOne(req.user.userId);
+    const user = await this.usersService.findOne(req.user._id);
     if (!user) throw new NotFoundException('Usuario no encontrado');
 
     const { password, ...userWithoutPassword } = user.toObject();
