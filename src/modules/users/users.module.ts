@@ -6,9 +6,12 @@ import { User, UserSchema } from './schemas/user.schema';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]), forwardRef(() => AuthModule),],
+  imports: [
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    forwardRef(() => AuthModule),
+  ],
   controllers: [UsersController],
   providers: [UsersService],
-  exports: [UsersService],
+  exports: [UsersService, MongooseModule], // <-- Exportar también MongooseModule con el esquema User
 })
-export class UsersModule { }
+export class UsersModule {}

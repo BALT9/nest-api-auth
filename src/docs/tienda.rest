@@ -1,0 +1,38 @@
+GET http://localhost:3000/api
+
+###
+GET http://localhost:3000/api/tiendas
+Content-Type: application/json
+Authorization: Bearer 
+###
+GET http://localhost:3000/api/users/687817f42efbecbd9c17926c
+
+### 
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "romel",
+  "age": 25,
+  "email": "romel@example.com",
+  "password": "1234567890"
+}
+
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "juan@example.com",
+  "password": "1234567890"
+}
+
+###
+GET http://localhost:3000/api/auth/profile
+Content-Type: application/json
+Authorization: Bearer 
+
+###
+POST http://localhost:3000/api/auth/logout
+Content-Type: application/json
+Authorization: Bearer 

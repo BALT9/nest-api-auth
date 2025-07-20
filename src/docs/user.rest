@@ -36,3 +36,14 @@ Authorization: Bearer
 POST http://localhost:3000/api/auth/logout
 Content-Type: application/json
 Authorization: Bearer 
+
+###
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "name": "romel",
+  "age": 25,
+  "email": "romel@example.com",
+  "password": "1234567890"
+}

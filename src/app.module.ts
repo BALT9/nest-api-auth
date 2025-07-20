@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TiendasModule } from './tiendas/tiendas.module';
 import { TiendasModule } from './modules/tiendas/tiendas.module';
 import { ProductosModule } from './modules/productos/productos.module';
 

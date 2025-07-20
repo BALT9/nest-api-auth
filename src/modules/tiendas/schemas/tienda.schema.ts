@@ -9,7 +9,7 @@ export class Tienda {
     name: string;
 
     // pertenece a un user 
-    @Prop({ type: Types.ObjectId, ref: 'User', required: true, unique: true })
+    @Prop({ type: Types.ObjectId, ref: 'User', required: true })
     owner: Types.ObjectId;
 
     // tiene muchos productos

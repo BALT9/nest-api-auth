@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -13,6 +13,11 @@ export class UsersService {
   ) { }
 
   async create(createUserDto: CreateUserDto): Promise<UserDocument> {
+    // Verificar si ya existe un usuario con ese email
+    const existingUser = await this.findByEmail(createUserDto.email);
+    if (existingUser) {
+      throw new ConflictException('Email ya registrado');
+    }
     const createUser = new this.userModel(createUserDto);
     return createUser.save();
   }

@@ -16,6 +16,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: any) {
     // Aquí defines qué devolver si el token es válido
     // Payload es el contenido del token decodificado
-    return { userId: payload.sub, email: payload.email };
+    return { _id: payload.sub, email: payload.email };
   }
 }
