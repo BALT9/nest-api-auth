@@ -6,13 +6,15 @@ import { AuthModule } from './modules/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TiendasModule } from './tiendas/tiendas.module';
 import { TiendasModule } from './modules/tiendas/tiendas.module';
+import { ProductosModule } from './modules/productos/productos.module';
 
 @Module({
   imports: [
     UsersModule, 
     AuthModule,
     MongooseModule.forRoot('mongodb+srv://admin:1234567890@cluster0.vgbrok7.mongodb.net/users?retryWrites=true&w=majority&appName=Cluster0'),
-    TiendasModule
+    TiendasModule,
+    ProductosModule
   ],
   controllers: [AppController],
   providers: [AppService],
