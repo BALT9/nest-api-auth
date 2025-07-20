@@ -3,9 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
 import { Tienda, TiendaDocument } from './schemas/tienda.schema';
+import { User, UserDocument } from '../users/schemas/user.schema';
+
 import { CreateTiendaDto } from './dto/create-tienda.dto';
 import { UpdateTiendaDto } from './dto/update-tienda.dto';
-import { User, UserDocument } from '../users/schemas/user.schema';
 
 @Injectable()
 export class TiendasService {
@@ -47,7 +48,7 @@ export class TiendasService {
     }
   }
 
-  async findByOwnerId(ownerId: string): Promise<Tienda> {
+  async findByOwnerId(ownerId: string): Promise<TiendaDocument> {
     if (!Types.ObjectId.isValid(ownerId)) {
       throw new BadRequestException('ownerId no es un ObjectId válido');
     }
